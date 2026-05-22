@@ -21,7 +21,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home-body">
+    <div className="home-body bg-[#f5f5f5] w-f">
       <Navbar
         cartCount={getTotalQuantity()}
         onCartClick={() => navigate("/products")}

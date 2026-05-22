@@ -16,9 +16,9 @@ const Navbar = ({ cartCount, onCartClick }) => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="navbar">
+    <nav className="navbar bg-[#010101] text-white">
       <div
-        className="container"
+        className="w-full"
         style={{ display: "flex", alignItems: "center", width: "100%" }}
       >
         <div className="logo">
@@ -49,7 +49,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
             </li>
             <li className="nav-item">
               <Link
-                to="/about"
+                to="/Home/about"
                 className={`nav-link ${isActive("/about") ? "active" : ""}`}
                 onClick={closeMenu}
               >
@@ -84,7 +84,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
         </div>
 
         <div
-          className={`hamburger ${isMenuOpen ? "active" : ""}`}
+          className={`hamburger ${isMenuOpen ? "active" : ""} hidden`}
           onClick={toggleMenu}
         >
           <span className="bar"></span>
