@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/layout/Navbar";
 import Footer from "../components/Footer";
 import PopupCart from "../components/PopupCart";
 import PopupCheckout from "../components/PopupCheckout";

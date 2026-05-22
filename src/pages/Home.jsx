@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/layout/Navbar";
 import Footer from "../components/Footer";
 import PopupCart from "../components/PopupCart";
 import { useCart } from "../hooks/useCart";
@@ -21,7 +21,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home-body bg-[#f5f5f5] w-f">
+    <div className="home-body bg-[#f5f5f5] min-h-screen">
       <Navbar
         cartCount={getTotalQuantity()}
         onCartClick={() => navigate("/products")}
@@ -97,7 +97,6 @@ const Home = () => {
         </div>
       </div>
 
-      <Footer variant="home" />
       <PopupCart show={showPopup} onClose={() => setShowPopup(false)} />
     </div>
   );
