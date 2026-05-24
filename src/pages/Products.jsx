@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
+import { useCart } from "../hooks/useCart";
+import { formatPrice } from "../utils/formatPrice";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
-import Footer from "../components/Footer";
 import PopupCart from "../components/PopupCart";
 import PopupCheckout from "../components/PopupCheckout";
 import ProductList from "../components/ProductList";
 import CartList from "../components/CartList";
-import { useCart } from "../hooks/useCart";
-import { formatPrice } from "../utils/formatPrice";
-import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -41,7 +40,7 @@ const Products = () => {
   };
 
   return (
-    <div className="product-body">
+    <div className="product-body min-h-screen bg-[#f5f5f5]">
       <Navbar
         cartCount={getTotalQuantity()}
         onCartClick={() => window.scrollTo(0, 0)}
@@ -78,7 +77,6 @@ const Products = () => {
         </div>
       </div>
 
-      <Footer variant="product" />
       <PopupCart show={showPopup} onClose={() => setShowPopup(false)} />
       <PopupCheckout
         show={showCheckout}

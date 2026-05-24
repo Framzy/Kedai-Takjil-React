@@ -4,11 +4,12 @@ import Layout from "./Layout";
 
 const Home = lazy(() => import("../pages/Home"));
 const Products = lazy(() => import("../pages/Products"));
-const Carts = lazy(() => import("../pages/Carts"));
+const Cart = lazy(() => import("../pages/Cart"));
 
 function AppRouter() {
   return (
     <Routes>
+      {/* Satu Layout membungkus semua route */}
       <Route path="/" element={<Layout />}>
         <Route
           index
@@ -18,23 +19,19 @@ function AppRouter() {
             </Suspense>
           }
         />
-      </Route>
-      <Route path="/products" element={<Layout />}>
         <Route
-          index
+          path="products"
           element={
             <Suspense fallback={<div />}>
               <Products />
             </Suspense>
           }
         />
-      </Route>
-      <Route path="/products" element={<Layout />}>
         <Route
-          index
+          path="cart"
           element={
             <Suspense fallback={<div />}>
-              <Carts />
+              <Cart />
             </Suspense>
           }
         />
