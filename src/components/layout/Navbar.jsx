@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import useDebounce from "../../hooks/useDebounce";
 
 const Navbar = ({ cartCount, onCartClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,6 +15,17 @@ const Navbar = ({ cartCount, onCartClick }) => {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
+  const handleResize = useDebounce(() => {
+    if (window.innerWidth >= 768) {
+      setIsMenuOpen(false);
+    }
+  }, 200);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, [handleResize]);
 
   const scrollToSection = (id) => {
     if (location.pathname === "/") {
@@ -34,10 +46,11 @@ const Navbar = ({ cartCount, onCartClick }) => {
   return (
     <nav
       className={`
-    fixed top-0 left-0 w-full z-50 text-white
-    transition-colors duration-300 ease-in-out
-    ${isScrolled ? "bg-[#010101] shadow-lg" : "bg-[#010101]/50"}
-  `}
+        fixed w-full top-0 left-0 z-50 px-5
+        bg-[#010101]
+        transition-all duration-300 ease-in-out
+        ${isScrolled ? "shadow-lg shadow-black/50 " : "shadow-none"}
+      `}
     >
       <div className="w-full flex items-center justify-between py-5">
         <div
@@ -59,11 +72,20 @@ const Navbar = ({ cartCount, onCartClick }) => {
         </button>
 
         <ul
-          className={` ${isMenuOpen ? "active" : ""}
-            flex flex-row items-center justify-center gap-5
+          className={`
+            fixed -left-150 top-16 
+            bg-(--color-primary)/95 w-3/4 h-screen gap-15 pb-20
+            flex flex-col items-center justify-center 
+            text-white text-center transition-all duration-300 ease-in-out
+            
+            ${isMenuOpen ? "left-0 " : ""}
+
+            md:h-fit
+            md:static md:bg-transparent md:flex-row md:gap-5 md:border-none
+            md:items-center md:justify-center md:py-0
             `}
         >
-          <li>
+          <li className="">
             <button
               onClick={() => scrollToSection("hero")}
               className="cursor-pointer"
@@ -107,7 +129,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
             className="w-6 h-6 cursor-pointer"
           />
           {cartCount <= 0 && (
-            <div className="circle absolute -top-2 right-1.5 w-5 h-5 rounded-full bg-red-700 text-white text-xs flex items-center justify-center">
+            <div className="circle absolute -top-2 right-2 md:-right-2.5 w-5 h-5 rounded-full bg-red-700 text-white text-xs flex items-center justify-center">
               <span>{cartCount}</span>
             </div>
           )}

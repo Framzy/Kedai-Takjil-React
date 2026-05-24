@@ -1,6 +1,6 @@
 function HeroSection() {
   return (
-    <section id="hero" className="min-h-screen scroll-mt-16 bg-amber-400">
+    <section id="hero" className="min-h-screen scroll-mt-16">
       <div className="container">
         <div className="row">
           <div className="col-2">

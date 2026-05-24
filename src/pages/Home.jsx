@@ -17,7 +17,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home-body bg-[#f5f5f5]">
+    <div className="home-body">
       <HeroSection />
       <ProductSection />
       <AboutSection />
