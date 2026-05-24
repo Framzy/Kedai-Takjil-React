@@ -1,12 +1,6 @@
 @import "tailwindcss";
-@import "./styles/global.css";
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
+/* CSS variables — define di :root, bukan di * */
 :root {
   --color-primary: #04605d;
   --color-secondary: #97c23f;
@@ -14,3 +8,9 @@
   --text: #333;
   --border: #ddd;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+@import "./styles/global.css";

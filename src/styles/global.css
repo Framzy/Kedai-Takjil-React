@@ -44,12 +44,6 @@ body {
     margin-right: 20px;
   }
 
-  .hamburger {
-    margin-right: 20px;
-    display: block;
-    cursor: pointer;
-  }
-
   .hamburger.active .bar:nth-child(2) {
     opacity: 0;
   }

@@ -6,6 +6,3 @@ export const formatPrice = (price) => {
   });
 };
 
-export const getCurrentYear = () => {
-  return new Date().getFullYear();
-};
