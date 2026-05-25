@@ -47,13 +47,13 @@ const Navbar = ({ cartCount, onCartClick }) => {
   return (
     <nav
       className={`
-        fixed w-full top-0 left-0 z-50 px-5
+        fixed w-full top-0 left-0 z-50 px-5 py-3.5
         bg-[#010101]
         transition-all duration-300 ease-in-out
         ${isScrolled ? "shadow-lg shadow-black/50 " : "shadow-none"}
       `}
     >
-      <div className="w-full flex items-center justify-between py-5">
+      <div className="w-full flex items-center justify-between">
         <div
           className={`hamburger ${isMenuOpen ? "active" : ""} md:hidden
               block w-6 h-6 cursor-pointer
@@ -67,26 +67,28 @@ const Navbar = ({ cartCount, onCartClick }) => {
 
         <button
           onClick={() => scrollToSection("hero")}
-          className="cursor-pointer w-12 h-6"
+          className="cursor-pointer "
         >
-          <img src="icon/logo.png" alt="logo aplikasi" />
+          <img src="icon/logo.png" alt="logo aplikasi" className="w-18 h-9.5" />
         </button>
 
         <ul
           className={`
-            fixed -left-150 top-16 
+            fixed -left-150 top-16
             bg-(--color-primary)/95 w-3/4 h-screen gap-15 pb-20
-            flex flex-col items-center justify-center 
-            text-white text-center transition-all duration-300 ease-in-out
-            
-            ${isMenuOpen ? "left-0 " : ""}
+            flex flex-col items-center justify-center
+            text-[#ADADAD] font-bold text-lg text-center
 
-            md:h-fit
-            md:static md:bg-transparent md:flex-row md:gap-5 md:border-none
-            md:items-center md:justify-center md:py-0
-            `}
+            transition-[left,opacity] duration-300 ease-in
+
+            ${isMenuOpen ? "left-0" : ""}
+
+            md:h-fit md:w-full
+            md:static md:bg-transparent md:flex-row md:gap-5
+            md:items-center md:justify-start md:py-0 md:mx-5
+          `}
         >
-          <li className="">
+          <li>
             <button
               onClick={() => scrollToSection("hero")}
               className="cursor-pointer"
