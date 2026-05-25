@@ -12,10 +12,12 @@ const Home = () => {
   useEffect(() => {
     if (window.location.hash) {
       const id = window.location.hash.replace("#", "");
-      document.getElementById(id)?.scrollIntoView();
+
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     }
   }, []);
-
   return (
     <div className="home-body">
       <HeroSection />

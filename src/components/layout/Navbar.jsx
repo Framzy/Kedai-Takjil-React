@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import cartIcon from "../../assets/nav/cart_icon.webp";
 import useDebounce from "../../hooks/useDebounce";
 
 const Navbar = ({ cartCount, onCartClick }) => {
@@ -122,7 +123,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
 
         <div className="relative">
           <img
-            src="/src/assets/nav/cart_icon.webp"
+            src={cartIcon}
             alt="icon cart"
             id="cart-icon"
             onClick={onCartClick}

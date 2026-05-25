@@ -1,15 +1,22 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
 import { useCart } from "../hooks/useCart";
+import { useEffect } from "react";
 
 function Layout() {
   const { getTotalQuantity } = useCart();
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [location.pathname]);
+
   const handleCartClick = () => {
     if (location.pathname === "/cart") {
-      Window.scrollTo({ top: 0 });
+      window.scrollTo({ top: 0, behavior: "instant" });
     } else {
       navigate("/products");
     }
