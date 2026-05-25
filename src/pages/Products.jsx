@@ -1,26 +1,14 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useCart } from "../hooks/useCart";
-import { formatPrice } from "../utils/formatPrice";
-import { useNavigate } from "react-router-dom";
-import Navbar from "../components/layout/Navbar";
 import PopupCart from "../components/PopupCart";
 import PopupCheckout from "../components/PopupCheckout";
 import ProductList from "../components/ProductList";
-import CartList from "../components/CartList";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [showCheckout, setShowCheckout] = useState(false);
-  const {
-    carts,
-    addToCart,
-    changeQuantity,
-    clearCart,
-    getTotalQuantity,
-    showPopup,
-    setShowPopup,
-  } = useCart();
-  const navigate = useNavigate();
+  const { addToCart, clearCart, showPopup, setShowPopup } = useCart();
 
   useEffect(() => {
     fetch("/src/data/products.json")
@@ -28,54 +16,35 @@ const Products = () => {
       .then((data) => setProducts(data));
   }, []);
 
-  const getTotalPrice = () => {
-    return carts.reduce((total, cart) => {
-      const product = products.find((p) => p.id == cart.product_id);
-      return total + (product?.price || 0) * cart.quantity;
-    }, 0);
-  };
-
   const handleCheckout = () => {
     clearCart();
   };
 
   return (
-    <div className="product-body min-h-screen bg-[#f5f5f5]">
-      <Navbar
-        cartCount={getTotalQuantity()}
-        onCartClick={() => window.scrollTo(0, 0)}
-      />
+    <div className="min-h-screen bg-[var(--background)] overflow-hidden px-8 py-12 md:p-12">
+      <div className="w-full flex justify-center items-center pb-10">
+        <motion.h1
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="w-fit font-bold text-center text-3xl sm:text-4xl text-[var(--color-primary)] 
+        px-15 py-2 shadow-[0_10px_8px_-10px_rgba(0,0,0,0.3)]"
+        >
+          Semua Produk
+        </motion.h1>
+      </div>
 
-      <div className="product-small-container" id="section2">
-        <h1 className="product-title">Semua Produk</h1>
-        <div className="productTab">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        className="w-full flex flex-col justify-center items-center bg-[white] rounded-3xl shadow-lg"
+        id="section2"
+      >
+        <div className="w-full p-12">
           <ProductList products={products} onAddToCart={addToCart} />
         </div>
-
-        <div className="cartTab">
-          <CartList
-            products={products}
-            carts={carts}
-            onChangeQuantity={changeQuantity}
-          />
-          <div className="btn">
-            <button className="close" onClick={() => navigate("/")}></button>
-            <div className="btn-info">
-              <div className="totalAllPrice">
-                <p>Total</p>
-                <p className="allPrice">{formatPrice(getTotalPrice())}</p>
-              </div>
-              <button
-                className="checkOut"
-                onClick={() => carts.length > 0 && setShowCheckout(true)}
-              >
-                Check Out
-              </button>
-              <p className="buyOption">*Jenis Pembayaran: Cash on Delivery</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      </motion.div>
 
       <PopupCart show={showPopup} onClose={() => setShowPopup(false)} />
       <PopupCheckout

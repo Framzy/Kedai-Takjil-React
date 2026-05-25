@@ -5,12 +5,13 @@
   --color-primary: #04605d;
   --color-secondary: #97c23f;
   --background: #eaf3f2;
-  --text: #333;
-  --border: #ddd;
 }
 
 html {
   scroll-behavior: smooth;
+  font:
+    16px/1.5 "Poppins",
+    sans-serif;
 }
 
 @import "./styles/global.css";
