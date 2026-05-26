@@ -1,24 +1,28 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
+
 import { useCart } from "../hooks/useCart";
-import { useEffect } from "react";
 
 function Layout() {
   const { getTotalQuantity } = useCart();
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.history.scrollRestoration = "manual";
+
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   const handleCartClick = () => {
     if (location.pathname === "/cart") {
-      window.scrollTo({ top: 0, behavior: "instant" });
+      window.scrollTo(0, 0);
     } else {
-      navigate("/products");
+      navigate("/cart");
     }
   };
 
@@ -29,6 +33,7 @@ function Layout() {
       <main className="pt-16 min-h-screen">
         <Outlet />
       </main>
+
       <Footer />
     </>
   );
