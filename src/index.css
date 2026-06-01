@@ -4,11 +4,14 @@
 :root {
   --color-primary: #04605d;
   --color-secondary: #97c23f;
-  --background: #eaf3f2;
+  --color-grey: #7c7c7c;
+  --background-white: #ebf2f2;
+  --background-dark: #010101;
 }
 
 html {
   scroll-behavior: smooth;
+
   font:
     16px/1.5 "Poppins",
     sans-serif;

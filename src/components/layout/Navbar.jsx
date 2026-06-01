@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import cartIcon from "../../assets/nav/cart_icon.webp";
-import cartIconActive from "../../assets/nav/cart_icon_active.webp";
+import cartIcon from "../../assets/images/nav/cart_icon.webp";
+import cartIconActive from "../../assets/images/nav/cart_icon_active.webp";
 
-import useDebounce from "../../hooks/useDebounce";
+import useScrollToSection from "../../hooks/useScrollToSection";
 
 const navItems = [
   { label: "Home", section: "hero" },
@@ -14,18 +14,15 @@ const navItems = [
 ];
 
 const Navbar = ({ cartCount, onCartClick }) => {
+  const { scrollToSection } = useScrollToSection();
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Active section hanya untuk landing page
   const [activeSection, setActiveSection] = useState("hero");
 
-  const navigate = useNavigate();
   const location = useLocation();
 
-  // =========================
-  // Toggle Mobile Menu
-  // =========================
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -34,28 +31,6 @@ const Navbar = ({ cartCount, onCartClick }) => {
     setIsMenuOpen(false);
   };
 
-  // =========================
-  // Resize Handler
-  // =========================
-  const handleResize = useDebounce(() => {
-    if (window.innerWidth >= 768) {
-      setIsMenuOpen(false);
-    }
-  }, 200);
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [handleResize]);
-
-  // =========================
-  // Navbar Shadow
-  // =========================
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -70,11 +45,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
     };
   }, []);
 
-  // =========================
-  // Active Section Scroll Spy
-  // =========================
   useEffect(() => {
-    // hanya aktif di homepage
     if (location.pathname !== "/") return;
 
     const sections = ["hero", "product", "about", "contact"];
@@ -103,7 +74,6 @@ const Navbar = ({ cartCount, onCartClick }) => {
       passive: true,
     });
 
-    // trigger pertama kali
     handleActiveSection();
 
     return () => {
@@ -111,9 +81,6 @@ const Navbar = ({ cartCount, onCartClick }) => {
     };
   }, [location.pathname]);
 
-  // =========================
-  // Lock Body Scroll
-  // =========================
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
 
@@ -122,49 +89,20 @@ const Navbar = ({ cartCount, onCartClick }) => {
     };
   }, [isMenuOpen]);
 
-  // =========================
-  // Scroll To Section
-  // =========================
-  const scrollToSection = (id) => {
-    // jika sudah di homepage
-    if (location.pathname === "/") {
-      document.getElementById(id)?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    } else {
-      // pindah ke homepage dulu
-      navigate("/");
-
-      // tunggu render selesai
-      setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 100);
-    }
-
+  const handleNavClick = (id) => {
+    scrollToSection(id);
     closeMenu();
   };
 
-  // =========================
-  // Route Checker
-  // =========================
   const isRouteActive = (path) => {
     return location.pathname === path;
   };
 
-  // =========================
-  // Active Nav Checker
-  // =========================
   const getNavClass = (item) => {
-    // Route Active
     if (item.route && location.pathname === item.route) {
       return activeClass;
     }
 
-    // Section Active
     if (location.pathname === "/" && activeSection === item.section) {
       return activeClass;
     }
@@ -172,9 +110,6 @@ const Navbar = ({ cartCount, onCartClick }) => {
     return inActiveClass;
   };
 
-  // =========================
-  // Tailwind Classes
-  // =========================
   const activeClass = `
     text-[var(--color-secondary)]
     relative
@@ -192,7 +127,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
   `;
 
   const inActiveClass = `
-    text-[#ADADAD]
+text-[var(--color-grey)]    
     relative
     cursor-pointer
 
@@ -215,17 +150,14 @@ const Navbar = ({ cartCount, onCartClick }) => {
       className={`
         fixed top-0 left-0 z-50
         w-full px-5 py-3.5
-        bg-[#010101]
+        
 
         transition-all duration-300 ease-in-out
 
-        ${isScrolled ? "shadow-sm shadow-black/50" : "shadow-none"}
+        ${isScrolled ? "bg-[var(--background-dark)]  shadow-sm shadow-black/50" : "shadow-none bg-transparent"}
       `}
     >
       <div className="w-full flex items-center justify-between">
-        {/* =========================
-            Hamburger
-        ========================= */}
         <div
           className={`
             hamburger
@@ -242,9 +174,6 @@ const Navbar = ({ cartCount, onCartClick }) => {
           <span className="bar"></span>
         </div>
 
-        {/* =========================
-            Logo
-        ========================= */}
         <button
           onClick={() => scrollToSection("hero")}
           className="cursor-pointer"
@@ -252,12 +181,9 @@ const Navbar = ({ cartCount, onCartClick }) => {
           <img src="icon/logo.png" alt="logo aplikasi" className="w-18 h-9.5" />
         </button>
 
-        {/* =========================
-            Navigation
-        ========================= */}
         <ul
           className={`
-            fixed top-16 left-0
+            fixed top-16.5 left-0
             w-3/4 h-screen pb-20
 
             flex flex-col
@@ -266,7 +192,6 @@ const Navbar = ({ cartCount, onCartClick }) => {
 
             bg-[var(--color-primary)]/95
 
-            text-[#ADADAD]
             text-lg
             font-bold
             text-center
@@ -274,7 +199,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
             transition-transform duration-300
             transform
 
-            ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}
+            ${isMenuOpen ? "translate-x-0 " : "-translate-x-full"}
 
             md:static
             md:w-full
@@ -297,7 +222,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
           {navItems.map((item) => (
             <li key={item.label}>
               <button
-                onClick={() => scrollToSection(item.section)}
+                onClick={() => handleNavClick(item.section)}
                 className={getNavClass(item)}
               >
                 {item.label}
@@ -306,9 +231,6 @@ const Navbar = ({ cartCount, onCartClick }) => {
           ))}
         </ul>
 
-        {/* =========================
-            Cart
-        ========================= */}
         <div className="relative">
           <img
             src={isRouteActive("/cart") ? cartIconActive : cartIcon}

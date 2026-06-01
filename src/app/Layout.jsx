@@ -30,7 +30,7 @@ function Layout() {
     <>
       <Navbar cartCount={getTotalQuantity()} onCartClick={handleCartClick} />
 
-      <main className="pt-16 min-h-screen">
+      <main className="min-h-screen">
         <Outlet />
       </main>
 
