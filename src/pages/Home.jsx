@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useCart } from "../hooks/useCart";
-import PopupCart from "../components/PopupCart";
+import PopupCart from "../components/cart/PopupCart";
 import HeroSection from "../sections/HeroSection";
 import ProductSection from "../sections/ProductSection";
 import AboutSection from "../sections/AboutSection";
@@ -19,7 +19,7 @@ const Home = () => {
     }
   }, []);
   return (
-    <div className="home-body">
+    <div className="home">
       <HeroSection />
       <ProductSection />
       <AboutSection />
