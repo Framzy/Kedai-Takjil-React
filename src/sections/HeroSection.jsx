@@ -1,67 +1,26 @@
-import background from "../assets/images/home/background_img.webp";
-import mobileBackground from "../assets/images/home/mobile_background_img.webp";
-import cloudImg from "../assets/images/home/cloud_img.webp";
-import personImg from "../assets/images/home/person_img.webp";
-import lanternImg from "../assets/images/home/lantern_img.webp";
-
 import { motion } from "framer-motion";
-import useIsMobile from "../hooks/useIsMobile";
 import useScrollToSection from "../hooks/useScrollToSection";
 
+import HeroBackground from "../components/home/hero/HeroBackground";
+import PersonBackground from "../components/home/hero/PersonBackground";
+import CloudBackground from "../components/home/hero/CloudBackground";
+import LanternBackground from "../components/home/hero/LanternBackground";
+
 function HeroSection() {
-  const { isMobile } = useIsMobile();
   const { scrollToSection } = useScrollToSection();
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen overflow-hidden scroll-mt-16  pt-16"
+      className="relative min-h-screen overflow-hidden scroll-mt-16 pt-16"
     >
-      <div
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${isMobile ? mobileBackground : background})`,
-        }}
-      />
+      <HeroBackground />
 
-      <div
-        className="
-                  absolute z-10
-                  bottom-0 md:bottom-20
-                  left-[5%] w-[50%] sm:w-[40%] 
-                  md:left-0 md:w-[42%]
-                  lg:left-[5%] lg:w-[35%]
-                  xl:left-[10%] xl:w-[30%]
-                "
-      >
-        <motion.img
-          src={personImg}
-          alt="Person"
-          className="w-full h-auto object-contain object-bottom select-none"
-          initial={{ opacity: 1, translateY: 1000 }}
-          animate={{ opacity: 1, translateY: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        />
-      </div>
+      <PersonBackground />
 
-      <img
-        src={cloudImg}
-        alt="Cloud"
-        aria-hidden="true"
-        className="absolute bottom-0 left-0 z-20 w-full
-                   object-fill select-none pointer-events-none"
-      />
+      <CloudBackground />
 
-      <motion.img
-        src={lanternImg}
-        alt="Lantern"
-        aria-hidden="true"
-        className="absolute top-0 md:top-0 right-5 z-30 select-none pointer-events-none
-                  w-[20%] md:w-[10%] lg:w-[8%]"
-        initial={{ opacity: 1, translateY: -1000 }}
-        animate={{ opacity: 1, translateY: 0 }}
-        transition={{ duration: 1, delay: 0.1 }}
-      />
+      <LanternBackground />
 
       <div
         className="content relative z-40 flex w-full min-h-screen items-center justify-center pb-32 bg-black/0
@@ -72,9 +31,9 @@ function HeroSection() {
                   flex flex-col items-center justify-center text-center text-white 
                   md:w-1/2 md:items-start md:justify-center md:text-left lg:pl-16
                   xl:w-1/2"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, ease: "easeInOut", delay: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
         >
           <h2 className="text-lg font-bold md:text-2xl xl:text-3xl">
             Kedai Takjil
