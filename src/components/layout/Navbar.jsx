@@ -127,7 +127,11 @@ const Navbar = ({ cartCount, onCartClick }) => {
   `;
 
   const inActiveClass = `
-text-[var(--color-grey)]    
+    text-[white]    
+    md:text-[var(--color-gray)]
+    ${!isScrolled && (isRouteActive("/products") || isRouteActive("/cart")) ? "md:text-[var(--color-primary)]" : ""} 
+    ${!isScrolled && isRouteActive("/") ? "md:text-[white]" : ""} 
+
     relative
     cursor-pointer
 
@@ -154,7 +158,7 @@ text-[var(--color-grey)]
 
         transition-all duration-300 ease-in-out
 
-        ${isScrolled ? "bg-[var(--background-dark)]  shadow-sm shadow-black/50" : "shadow-none bg-transparent"}
+        ${isScrolled ? "bg-[var(--background-dark)]  shadow-sm shadow-black/50" : "shadow-none bg-black/15"}
       `}
     >
       <div className="w-full flex items-center justify-between">
