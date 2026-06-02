@@ -3,72 +3,84 @@
     "id": 1,
     "name": "Es Buah",
     "price": 15000,
-    "image": "images/products/Es-1.jpg"
+    "image": "/src/assets/images/products/product_img_1.jpg",
+    "sold": 100
   },
   {
     "id": 2,
     "name": "Es Campur",
     "price": 15000,
-    "image": "images/products/Es-2.jpg"
+    "image": "/src/assets/images/products/product_img_2.jpg",
+    "sold": 80
   },
   {
     "id": 3,
     "name": "Es Cappucino",
     "price": 15000,
-    "image": "images/products/Es-3.jpg"
+    "image": "/src/assets/images/products/product_img_3.jpg",
+    "sold": 50
   },
   {
     "id": 4,
     "name": "Es Cendol",
     "price": 10000,
-    "image": "images/products/Es-4.jpg"
+    "image": "/src/assets/images/products/product_img_4.jpg",
+    "sold": 120
   },
   {
     "id": 5,
     "name": "Es Coklat",
     "price": 10000,
-    "image": "images/products/Es-5.jpg"
+    "image": "/src/assets/images/products/product_img_5.jpg",
+    "sold": 90
   },
   {
     "id": 6,
     "name": "Es Green Tea",
     "price": 10000,
-    "image": "images/products/Es-6.jpg"
+    "image": "/src/assets/images/products/product_img_6.jpg",
+    "sold": 70
   },
   {
     "id": 7,
     "name": "Es Kelapa",
     "price": 15000,
-    "image": "images/products/Es-7.jpg"
+    "image": "/src/assets/images/products/product_img_7.jpg",
+    "sold": 110
   },
   {
     "id": 8,
     "name": "Es Pisang Hijau",
     "price": 15000,
-    "image": "images/products/Es-8.jpg"
+    "image": "/src/assets/images/products/product_img_8.jpg",
+    "sold": 130
   },
   {
     "id": 9,
     "name": "Es Teh",
     "price": 10000,
-    "image": "images/products/Es-9.jpg"
+    "image": "/src/assets/images/products/product_img_9.jpg",
+    "sold": 60
   },
   {
     "id": 10,
     "name": "Es Teler",
     "price": 15000,
-    "image": "images/products/Es-10.jpg"
+    "image": "/src/assets/images/products/product_img_10.jpg",
+    "sold": 40
   },
   {
     "id": 11,
     "name": "Es Timunsuri",
     "price": 15000,
-    "image": "images/products/Es-11.jpg"
+    "image": "/src/assets/images/products/product_img_11.jpg",
+    "sold": 30
   },
   {
     "id": 12,
     "name": "Es Kolak",
     "price": 10000,
-    "image": "images/products/Es-12.jpg"
+    "image": "/src/assets/images/products/product_img_12.jpg",
+    "sold": 20
   }
 ]

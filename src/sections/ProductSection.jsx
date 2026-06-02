@@ -1,47 +1,39 @@
-import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import ProductSectionList from "../components/home/product/ProductSectionList";
+
+const productListContent = [
+  { label: "Produk Rekomendasi", value: "recommended" },
+  { label: "Produk Terbaru", value: "newest" },
+];
 
 function ProductSection() {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    fetch("/products.json")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-  }, []);
-
-  //   const handleAddToCart = (productId) => {
-  //     handleAddToCart(productId);
-  //   };
-
   return (
     <>
-      <section id="product" className="min-h-screen scroll-mt-16">
-        <h1 className="title">Produk Kami</h1>
-        <div className="row-2">
-          <div className="information">
-            <h3>| Produk Rekomendasi</h3>
-            <h3>
-              <a href="/products" className="full-product">
-                Lihat Semua
-              </a>
-            </h3>
-          </div>
-          <div className="product">
-            {products.slice(0, 3).map((product) => (
-              <div key={product.id} className="col-3">
-                <img src={product.image} alt={product.name} />
-                <h4>{product.name}</h4>
-                <div className="rating">
-                  {[...Array(5)].map((_, i) => (
-                    <i key={i} className="star">
-                      <img src="/images/icons/star.png" alt="star" />
-                    </i>
-                  ))}
-                </div>
-                <p>Rp {(product.price / 1000).toFixed(0)},000</p>
-              </div>
-            ))}
-          </div>
+      <section
+        id="product"
+        className="scroll-mt-16 bg-[var(--background-white)] px-8 py-12 md:px-10 md:py-14"
+      >
+        <div className="w-full flex justify-center items-center pb-10">
+          <motion.h1
+            initial={{ opacity: 0, y: -50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            viewport={{ once: true, amount: 0.5 }}
+            className="w-fit font-bold text-center text-3xl sm:text-4xl text-[var(--color-primary)] 
+        px-15 py-2 shadow-[0_10px_8px_-10px_rgba(0,0,0,0.5)]"
+          >
+            Produk Kami
+          </motion.h1>
+        </div>
+
+        <div className="w-full flex flex-col gap-10 justify-center items-center ">
+          {productListContent.map((item, index) => (
+            <ProductSectionList
+              key={index}
+              label={item.label}
+              productListOptions={item.value}
+            />
+          ))}
         </div>
       </section>
     </>
