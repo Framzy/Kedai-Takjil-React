@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useCart } from "../hooks/useCart";
+import { useCart } from "../context/CartContext";
 import PopupCart from "../components/cart/PopupCart";
 import HeroSection from "../sections/HeroSection";
 import ProductSection from "../sections/ProductSection";
