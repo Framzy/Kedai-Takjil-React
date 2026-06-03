@@ -5,9 +5,10 @@ const ProductList = ({ productListOptions }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("/src/data/products.json")
+    fetch("/data/products.json")
       .then((res) => res.json())
-      .then((data) => setProducts(data));
+      .then((data) => setProducts(data))
+      .catch((err) => console.error("Gagal load produk:", err));
   }, []);
 
   if (productListOptions === "all") {

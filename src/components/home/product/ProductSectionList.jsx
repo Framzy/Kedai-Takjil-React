@@ -9,7 +9,7 @@ function ProductSectionList({ label, productListOptions }) {
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.2 }}
         className="w-full flex flex-col justify-center items-center py-12 px-10 md:px-16  gap-6 bg-[white] rounded-3xl shadow-lg"
       >
         <div className="w-full flex flex-col md:flex-row justify-between items-center">

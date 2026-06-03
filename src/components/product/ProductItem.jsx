@@ -1,4 +1,4 @@
-import { useCart } from "../../hooks/useCart";
+import { useCart } from "../../context/CartContext";
 import { formatPrice } from "../../utils/formatPrice";
 
 function ProductItem({ product }) {

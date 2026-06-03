@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useCart } from "../hooks/useCart";
+import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/formatPrice";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
-import PopupCart from "../components/PopupCart";
-import PopupCheckout from "../components/PopupCheckout";
-import ProductList from "../components/ProductList";
-import CartList from "../components/CartList";
+import PopupCart from "../components/cart/PopupCart";
+import PopupCheckout from "../components/product/PopupCheckout";
+import ProductList from "../components/product/ProductList";
+import CartList from "../components/cart/CartList";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -16,36 +16,32 @@ const Cart = () => {
     addToCart,
     changeQuantity,
     clearCart,
-    getTotalQuantity,
     showPopup,
     setShowPopup,
   } = useCart();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/src/data/products.json")
+    fetch("/data/products.json")
       .then((res) => res.json())
-      .then((data) => setProducts(data));
+      .then((data) => setProducts(data))
+      .catch((err) => console.error("Gagal load produk:", err));
   }, []);
 
   const getTotalPrice = () => {
     return carts.reduce((total, cart) => {
-      const product = products.find((p) => p.id == cart.product_id);
+      const product = products.find((p) => p.id === cart.product_id);
       return total + (product?.price || 0) * cart.quantity;
     }, 0);
   };
 
   const handleCheckout = () => {
     clearCart();
+    setShowCheckout(false);
   };
 
   return (
-    <div className="product-body min-h-screen bg-[#f5f5f5]">
-      <Navbar
-        cartCount={getTotalQuantity()}
-        onCartClick={() => window.scrollTo(0, 0)}
-      />
-
+    <div className="cart min-h-screen bg-[var(--background-white)] overflow-hidden px-8 py-12 md:p-10 md:pt-28">
       <div className="product-small-container" id="section2">
         <h1 className="product-title">Semua Produk</h1>
         <div className="productTab grid grid-cols-1 md:grid-cols-5 gap-5">

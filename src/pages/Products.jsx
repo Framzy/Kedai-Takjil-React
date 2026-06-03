@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useCart } from "../hooks/useCart";
+import { useCart } from "../context/CartContext";
 import PopupCart from "../components/cart/PopupCart";
 import PopupCheckout from "../components/product/PopupCheckout";
 import ProductList from "../components/product/ProductList";
