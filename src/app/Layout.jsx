@@ -4,10 +4,10 @@ import { useEffect } from "react";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
 
-import { useCart } from "../hooks/useCart";
+import { useCart } from "../context/CartContext";
 
 function Layout() {
-  const { getTotalQuantity } = useCart();
+  const { totalQuantity } = useCart();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,7 +28,7 @@ function Layout() {
 
   return (
     <>
-      <Navbar cartCount={getTotalQuantity()} onCartClick={handleCartClick} />
+      <Navbar cartCount={totalQuantity} onCartClick={handleCartClick} />
 
       <main className="min-h-screen">
         <Outlet />

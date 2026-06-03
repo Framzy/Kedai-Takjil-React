@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import cartIcon from "../../assets/images/nav/cart_icon.webp";
-import cartIconActive from "../../assets/images/nav/cart_icon_active.webp";
+import cartIcon from "../../assets/icons/nav/cart_icon.webp";
+import cartIconActive from "../../assets/icons/nav/cart_icon_active.png";
 
 import useScrollToSection from "../../hooks/useScrollToSection";
 
@@ -158,7 +158,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
 
         transition-all duration-300 ease-in-out
 
-        ${isScrolled ? "bg-[var(--background-dark)]  shadow-sm shadow-black/50" : "shadow-none bg-black/15"}
+        ${isScrolled ? "bg-[var(--background-dark)]  shadow-sm shadow-black/50" : "shadow-none bg-black/5"}
       `}
     >
       <div className="w-full flex items-center justify-between">
