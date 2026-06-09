@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
-import cartIcon from "../../assets/icons/nav/cart_icon.webp";
-import cartIconActive from "../../assets/icons/nav/cart_icon_active.png";
+import cartIcon from "../../assets/icons/cart/cart_icon.webp";
+import cartIconActive from "../../assets/icons/cart/cart_icon_active.png";
 
 import useScrollToSection from "../../hooks/useScrollToSection";
 
@@ -82,9 +83,12 @@ const Navbar = ({ cartCount, onCartClick }) => {
   }, [location.pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    }
 
     return () => {
+      // Cleanup selalu reset ke auto
       document.body.style.overflow = "auto";
     };
   }, [isMenuOpen]);
@@ -244,25 +248,37 @@ const Navbar = ({ cartCount, onCartClick }) => {
           />
 
           {cartCount > 0 && (
-            <div
-              className="
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={cartCount}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 1, scale: 0.5 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="
                 absolute
-                -top-2
-                right-2
-                md:-right-2.5
-
-                w-5 h-5
+                -top-2.5
+                -right-2.5               
+                md:-right-3
+                w-6 h-5
                 rounded-full
-
-                bg-red-700
+                bg-[var(--color-primary)]
                 text-white
                 text-xs
-
                 flex items-center justify-center
               "
-            >
-              <span>{cartCount}</span>
-            </div>
+              >
+                <motion.span
+                  key={cartCount}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                >
+                  {cartCount}
+                </motion.span>
+              </motion.div>
+            </AnimatePresence>
           )}
         </div>
       </div>

@@ -9,7 +9,6 @@ const Cart = lazy(() => import("../pages/Cart"));
 function AppRouter() {
   return (
     <Routes>
-      {/* Satu Layout membungkus semua route */}
       <Route path="/" element={<Layout />}>
         <Route
           index

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
 
-import { useCart } from "../context/CartContext";
+import { useCart } from "../context/hooks/useCart";
 
 function Layout() {
   const { totalQuantity } = useCart();
