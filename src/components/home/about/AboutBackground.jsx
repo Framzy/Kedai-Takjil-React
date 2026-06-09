@@ -4,7 +4,7 @@ import shopImg from "../../../assets/images/home/about_shop_img.webp";
 function ShopBackground() {
   return (
     <>
-      <div className="w-[60vw] md:w-[75vw] lg:w-[50vw] max-w-7xl ">
+      <div className="w-[60vw] md:w-[65vw] lg:w-[40vw] max-w-7xl ">
         <motion.img
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
