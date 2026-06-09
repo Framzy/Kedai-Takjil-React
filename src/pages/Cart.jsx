@@ -1,85 +1,80 @@
-import { useEffect, useState } from "react";
-import { useCart } from "../context/CartContext";
-import { formatPrice } from "../utils/formatPrice";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useCart } from "../context/hooks/useCart";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/layout/Navbar";
-import PopupCart from "../components/cart/PopupCart";
-import PopupCheckout from "../components/product/PopupCheckout";
-import ProductList from "../components/product/ProductList";
+import PopupCheckout from "../components/cart/PopupCheckout";
 import CartList from "../components/cart/CartList";
+import CartEmpty from "../components/cart/CartEmpty";
+import useGetDataProducts from "../hooks/useGetDataProducts";
+import CartPayment from "../components/cart/CartPayment";
 
 const Cart = () => {
-  const [products, setProducts] = useState([]);
   const [showCheckout, setShowCheckout] = useState(false);
-  const {
-    carts,
-    addToCart,
-    changeQuantity,
-    clearCart,
-    showPopup,
-    setShowPopup,
-  } = useCart();
+  const { carts, removeItem, changeQuantity, clearCart } = useCart();
+  const { products, isLoading, error } = useGetDataProducts();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch("/data/products.json")
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.error("Gagal load produk:", err));
-  }, []);
-
-  const getTotalPrice = () => {
-    return carts.reduce((total, cart) => {
-      const product = products.find((p) => p.id === cart.product_id);
-      return total + (product?.price || 0) * cart.quantity;
-    }, 0);
-  };
 
   const handleCheckout = () => {
     clearCart();
     setShowCheckout(false);
   };
 
-  return (
-    <div className="cart min-h-screen bg-[var(--background-white)] overflow-hidden px-8 py-12 md:p-10 md:pt-28">
-      <div className="product-small-container" id="section2">
-        <h1 className="product-title">Semua Produk</h1>
-        <div className="productTab grid grid-cols-1 md:grid-cols-5 gap-5">
-          <ProductList products={products} onAddToCart={addToCart} />
-        </div>
-
-        <div className="cartTab">
-          <CartList
-            products={products}
-            carts={carts}
-            onChangeQuantity={changeQuantity}
-          />
-          <div className="btn">
-            <button className="close" onClick={() => navigate("/")}></button>
-            <div className="btn-info">
-              <div className="totalAllPrice">
-                <p>Total</p>
-                <p className="allPrice">{formatPrice(getTotalPrice())}</p>
-              </div>
-              <button
-                className="checkOut"
-                onClick={() => carts.length > 0 && setShowCheckout(true)}
-              >
-                Check Out
-              </button>
-              <p className="buyOption">*Jenis Pembayaran: Cash on Delivery</p>
-            </div>
-          </div>
-        </div>
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--background-white)] flex items-center justify-center">
+        <p className="text-gray-400 text-sm animate-pulse">Memuat produk...</p>
       </div>
+    );
+  }
 
-      <PopupCart show={showPopup} onClose={() => setShowPopup(false)} />
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[var(--background-white)] flex items-center justify-center">
+        <p className="text-red-400 text-sm">Gagal memuat produk: {error}</p>
+      </div>
+    );
+  }
+
+  const isEmptyCart = carts.length === 0;
+
+  return (
+    <>
       <PopupCheckout
         show={showCheckout}
         onClose={() => setShowCheckout(false)}
         onCheckout={handleCheckout}
       />
-    </div>
+      <div className="cart min-h-screen bg-[var(--background-white)] overflow-hidden px-8 py-12 md:p-10 md:pt-28">
+        {isEmptyCart ? (
+          <CartEmpty navigateTo={navigate} />
+        ) : (
+          <div className="flex flex-col justify-start items-start bg-white rounded-3xl shadow-lg">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut", delay: 0.4 }}
+              className="w-full flex flex-col justify-center items-start p-12 rounded-t-3xl"
+            >
+              <CartList
+                products={products}
+                carts={carts}
+                removeItem={removeItem}
+                onChangeQuantity={changeQuantity}
+              />
+            </motion.div>
+
+            <div className="w-full flex flex-col justify-center items-end rounded-b-3xl border-t-2 border-gray-200 ">
+              <CartPayment
+                carts={carts}
+                products={products}
+                setShowCheckout={setShowCheckout}
+                navigateTo={navigate}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
