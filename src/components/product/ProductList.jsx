@@ -1,8 +1,12 @@
-import ProductItem from "./ProductItem";
 import { useEffect, useState } from "react";
+import { useCart } from "../../context/hooks/useCart";
+import PopupCart from "../cart/PopupCart";
+import ProductItem from "./ProductItem";
 
 const ProductList = ({ productListOptions }) => {
   const [products, setProducts] = useState([]);
+
+  const { showPopup, closePopup } = useCart();
 
   useEffect(() => {
     fetch("/data/products.json")
@@ -11,43 +15,53 @@ const ProductList = ({ productListOptions }) => {
       .catch((err) => console.error("Gagal load produk:", err));
   }, []);
 
-  if (productListOptions === "all") {
-    return (
-      <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
-        {products.map((product) => (
-          <ProductItem key={product.id} product={product} />
-        ))}
-      </div>
-    );
-  }
+  let renderedProductList;
 
-  if (productListOptions === "recommended") {
-    return (
-      <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
-        {products
-          .sort((a, b) => b.sold - a.sold)
-          .slice(0, 6)
-          .map((product) => (
+  switch (productListOptions) {
+    case "all":
+      renderedProductList = (
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
+          {products.map((product) => (
             <ProductItem key={product.id} product={product} />
           ))}
-      </div>
-    );
+        </div>
+      );
+      break;
+    case "recommended":
+      renderedProductList = (
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
+          {products
+            .sort((a, b) => b.sold - a.sold)
+            .slice(0, 6)
+            .map((product) => (
+              <ProductItem key={product.id} product={product} />
+            ))}
+        </div>
+      );
+      break;
+    case "newest":
+      renderedProductList = (
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
+          {products
+            .sort((a, b) => b.id - a.id)
+            .slice(0, 6)
+            .map((product) => (
+              <ProductItem key={product.id} product={product} />
+            ))}
+        </div>
+      );
+      break;
+    default:
+      return null;
   }
 
-  if (productListOptions === "newest") {
-    return (
-      <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
-        {products
-          .sort((a, b) => b.id - a.id)
-          .slice(0, 6)
-          .map((product) => (
-            <ProductItem key={product.id} product={product} />
-          ))}
-      </div>
-    );
-  }
+  return (
+    <>
+      <PopupCart show={showPopup} onClose={closePopup} />
 
-  return null;
+      {renderedProductList}
+    </>
+  );
 };
 
 export default ProductList;

@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useCart } from "../context/CartContext";
-import PopupCart from "../components/cart/PopupCart";
-import PopupCheckout from "../components/product/PopupCheckout";
+import { useCart } from "../context/hooks/useCart";
+import PopupCheckout from "../components/cart/PopupCheckout";
 import ProductList from "../components/product/ProductList";
 
 const Products = () => {
   const [showCheckout, setShowCheckout] = useState(false);
-  const { clearCart, showPopup, setShowPopup } = useCart();
+  const { clearCart } = useCart();
 
   const handleCheckout = () => {
     clearCart();
@@ -38,7 +37,6 @@ const Products = () => {
         </div>
       </motion.div>
 
-      <PopupCart show={showPopup} onClose={() => setShowPopup(false)} />
       <PopupCheckout
         show={showCheckout}
         onClose={() => setShowCheckout(false)}
