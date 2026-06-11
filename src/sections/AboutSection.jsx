@@ -3,6 +3,7 @@ import cloudImg from "../assets/images/home/about_cloud_img.webp";
 import { motion } from "framer-motion";
 import SectionTitle from "../components/home/SectionTitle";
 import AboutBackground from "../components/home/about/AboutBackground";
+import { fadeInLeft } from "../utils/motionVariants";
 
 const AboutSection = () => {
   return (
@@ -16,10 +17,7 @@ const AboutSection = () => {
           <AboutBackground />
 
           <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            {...fadeInLeft}
             className="flex flex-col justify-center items-center md:items-start text-start mb-10 md:mb-0 gap-4 md:gap-8 "
           >
             <img

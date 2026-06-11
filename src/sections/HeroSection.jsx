@@ -48,7 +48,7 @@ function HeroSection() {
           <button
             onClick={() => scrollToSection("product")}
             className="cursor-pointer bg-white border border-white/40
-                      text-[var(--color-primary)] font-bold px-6 py-2.5 text-md 
+                      text-[var(--color-primary)] font-bold px-6 py-2.5 text-base 
                       shadow-[0_4px_3px_0px_var(--color-primary)] rounded-full
                     hover:bg-white/40  hover:text-white
                       transition-all"
