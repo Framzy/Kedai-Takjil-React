@@ -5,6 +5,7 @@ import instagramIcon from "../assets/icons/home/contact_instagram_icon.webp";
 import twitterIcon from "../assets/icons/home/contact_twitter_icon.webp";
 
 import { motion } from "framer-motion";
+import { fadeInLeft } from "../utils/motionVariants";
 import ContactChat from "../components/home/contact/ContactChat";
 import ContactSosialMedia from "../components/home/contact/ContactSosialMedia";
 import ContactBackground from "../components/home/contact/ContactBackground";
@@ -47,10 +48,7 @@ const ContactSection = () => {
         <div className="w-fit h-full flex flex-col-reverse md:flex-row justify-between items-end gap-8 md:gap-12 lg:gap-8">
           <ContactBackground />
           <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            viewport={{ once: true, amount: 0.3 }}
+            {...fadeInLeft}
             className="w-full md:w-2/5 h-full flex flex-col justify-center items-center self-center gap-4
           md:items-start mb-5 md:mb-0 md:gap-10 "
           >
@@ -71,7 +69,7 @@ const ContactSection = () => {
               </div>
 
               <div className="w-fit flex flex-col md:gap-4">
-                <h2 className="text-md md:text-2xl font-bold text-gray-600">
+                <h2 className="text-base md:text-2xl font-bold text-gray-600">
                   Ikuti Kami
                 </h2>
                 <div className="h-auto flex flex-row justify-start items-start xl:items-center gap-6">
