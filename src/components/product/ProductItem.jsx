@@ -1,9 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "../../context/hooks/useCart";
 import { formatPrice } from "../../utils/formatPrice";
+import { productImages } from "../../assets/images/productImages";
 
 function ProductItem({ product }) {
   const { carts, addToCart, isInCart } = useCart();
+  const imgSrc = productImages[product.imageKey];
 
   const inCart = isInCart(product.id);
 
@@ -19,7 +21,7 @@ function ProductItem({ product }) {
       >
         <div className="w-full h-40 rounded-lg overflow-hidden">
           <img
-            src={product.image}
+            src={imgSrc}
             alt={product.name}
             className="w-full h-full object-cover drop-shadow-lg brightness-90
                  hover:scale-105 hover:brightness-100
