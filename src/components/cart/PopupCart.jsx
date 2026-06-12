@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion"; // ← tambah AnimatePresence
 import SuccessIcon from "../../assets/icons/cart/success_icon.webp";
 import CartIcon from "../../assets/icons/cart/cart_icon.webp";
+import { fadePopUp } from "../../utils/motionVariants";
 
 const PopupCart = ({ show, onClose }) => {
   const navigate = useNavigate();
@@ -25,19 +26,7 @@ const PopupCart = ({ show, onClose }) => {
             onClick={onClose}
           >
             <motion.div
-              initial={{
-                scale: 0.5,
-                opacity: 0,
-              }}
-              animate={{
-                scale: 1,
-                opacity: 1,
-              }}
-              exit={{
-                scale: 0.5,
-                opacity: 0,
-              }}
-              transition={{ duration: 0.4, ease: "easeIn" }}
+              {...fadePopUp}
               className="bg-white w-xs md:w-md rounded-2xl shadow-2xl flex flex-col items-center"
               onClick={(e) => e.stopPropagation()}
             >

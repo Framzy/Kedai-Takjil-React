@@ -3,7 +3,7 @@ import CartItem from "./CartItem";
 
 const CartList = ({ products, carts, removeItem, onChangeQuantity }) => {
   return (
-    <div className="w-full flex flex-col items-center justify-center ">
+    <div className="w-full flex flex-col items-center justify-center gap-6 sm:gap-8">
       {carts.map((cart) => {
         const cartItem = getProductCart(cart, products);
         if (!cartItem) return null;

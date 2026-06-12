@@ -5,7 +5,7 @@ function CartEmpty({ navigateTo }) {
         <h2 className="font-bold text-2xl text-gray-600">
           Keranjang Anda Kosong
         </h2>
-        <p className="font-semibold text-md text-gray-600">
+        <p className="font-semibold text-base text-gray-600">
           Keranjangmu kosong, ayo pesan sekarang!
         </p>
         <button

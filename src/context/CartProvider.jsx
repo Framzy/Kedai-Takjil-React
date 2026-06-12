@@ -77,6 +77,16 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  const setQuantity = (productId, quantity) => {
+    setCarts((prevCarts) =>
+      prevCarts.map((cart) =>
+        cart.product_id === Number(productId)
+          ? { ...cart, quantity: Math.min(Math.max(quantity, 1), 99) }
+          : cart,
+      ),
+    );
+  };
+
   const removeItem = (productId) => {
     setCarts((prevCarts) =>
       prevCarts.filter((cart) => cart.product_id !== Number(productId)),
@@ -103,6 +113,7 @@ export const CartProvider = ({ children }) => {
         carts,
         addToCart,
         changeQuantity,
+        setQuantity,
         removeItem,
         clearCart,
         showPopup,

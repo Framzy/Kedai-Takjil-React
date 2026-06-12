@@ -44,7 +44,7 @@ const Cart = () => {
         onClose={() => setShowCheckout(false)}
         onCheckout={handleCheckout}
       />
-      <div className="cart min-h-screen bg-[var(--background-white)] overflow-hidden px-8 py-12 md:p-10 md:pt-28">
+      <div className="cart min-h-screen bg-[var(--background-white)] overflow-hidden p-6 pt-26 sm:p-12 sm:pt-26 md:p-10 md:pt-28">
         {isEmptyCart ? (
           <CartEmpty navigateTo={navigate} />
         ) : (
@@ -53,7 +53,7 @@ const Cart = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut", delay: 0.4 }}
-              className="w-full flex flex-col justify-center items-start p-12 rounded-t-3xl"
+              className="w-full flex flex-col justify-center items-start p-6 sm:p-12 rounded-t-3xl"
             >
               <CartList
                 products={products}
