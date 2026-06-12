@@ -35,6 +35,15 @@ function AppRouter() {
           }
         />
       </Route>
+
+      <Route
+        path="*"
+        element={
+          <Suspense fallback={<div />}>
+            <Home />
+          </Suspense>
+        }
+      />
     </Routes>
   );
 }
