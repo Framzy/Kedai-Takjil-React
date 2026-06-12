@@ -1,4 +1,5 @@
 import { formatPrice } from "../../utils/formatPrice";
+import { productImages } from "../../assets/images/productImages";
 import CartItemQuantityControl from "./CartItemQuantityControl";
 
 const CartItem = ({
@@ -8,6 +9,8 @@ const CartItem = ({
   onChangeQuantity,
   removeItem,
 }) => {
+  const imgSrc = productImages[product.imageKey];
+
   return (
     <div
       key={cart.product_id}
@@ -16,7 +19,7 @@ const CartItem = ({
       <div className="w-full h-full flex flex-col sm:flex-row justify-start items-center p-6 gap-8">
         <div className="w-full h-40 sm:h-auto sm:w-56 aspect-square rounded-xl shadow-lg overflow-hidden">
           <img
-            src={product.image}
+            src={imgSrc}
             alt={product.name}
             className="w-full h-full object-cover drop-shadow-lg brightness-90 hover:scale-105 hover:brightness-100 transition-all duration-300"
           />
