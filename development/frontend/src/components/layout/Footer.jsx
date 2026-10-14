@@ -1,4 +1,4 @@
-import icon from "/icon/logo.png";
+import icon from "../../assets/images/logo.png";
 import { getCurrentYear } from "../../utils/getCurrentYear";
 
 function Footer() {

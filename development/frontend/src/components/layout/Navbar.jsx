@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
+import logo from "../../assets/images/logo.png";
 import cartIcon from "../../assets/icons/cart/cart_icon.webp";
 import cartIconActive from "../../assets/icons/cart/cart_icon_active.png";
 
@@ -186,7 +187,7 @@ const Navbar = ({ cartCount, onCartClick }) => {
           onClick={() => scrollToSection("hero")}
           className="cursor-pointer"
         >
-          <img src="icon/logo.png" alt="logo aplikasi" className="w-18 h-9.5" />
+          <img src={logo} alt="logo aplikasi" className="w-18 h-9.5" />
         </button>
 
         <ul
