@@ -81,7 +81,7 @@ function CartItemQuantityControl({ onChangeQuantity, removeItem, cart }) {
                     e.preventDefault();
                   if (e.key === "Enter") e.target.blur();
                 }}
-                className="h-full flex justify-center items-center font-bold text-center py-2 px-1 sm:px-2
+                className=" flex justify-center items-center font-bold text-center py-2 px-1 sm:px-2
                          text-base sm:text-xl text-gray-500 bg-gray-100 
                          focus:outline-[var(--color-secondary)] focus:bg-white focus:text-[var(--color-secondary)]
                          [appearance:textfield]
