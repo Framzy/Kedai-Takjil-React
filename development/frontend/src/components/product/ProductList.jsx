@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useCart } from "../../context/hooks/useCart";
+import useGetDataProducts from "../../hooks/useGetDataProducts";
 import PopupCart from "../cart/PopupCart";
 import ProductItem from "./ProductItem";
+import ProductSkeleton from "./ProductSkeleton";
+import ProductError from "./ProductError";
 
-const INITIAL_ITEMS = 12;
+const INITIAL_ITEMS = 10;
 const LOAD_MORE = 6;
 
 const LoadMoreButton = ({ list, totalItems, handleLoadMore }) => {
-  if (totalItems === list.length) return null;
+  if (totalItems >= list.length) return null;
 
   return (
     <div className="w-full py-4 flex justify-center items-center">
@@ -22,21 +25,17 @@ const LoadMoreButton = ({ list, totalItems, handleLoadMore }) => {
     </div>
   );
 };
+
 const ProductList = ({ productListOptions }) => {
-  const [products, setProducts] = useState([]);
+  const { products, isLoading, error, refetch } = useGetDataProducts();
   const [totalItems, setTotalItems] = useState(INITIAL_ITEMS);
   const { showPopup, closePopup } = useCart();
-
-  useEffect(() => {
-    fetch("/data/products.json")
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.error("Gagal load produk:", err));
-  }, []);
 
   const handleLoadMore = () => {
     setTotalItems((prevItems) => prevItems + LOAD_MORE);
   };
+
+  const skeletonCount = productListOptions === "all" ? INITIAL_ITEMS : 6;
 
   let renderedProductList;
 
@@ -44,16 +43,26 @@ const ProductList = ({ productListOptions }) => {
     case "all":
       renderedProductList = (
         <div className="flex flex-col items-center gap-6">
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
-            {products.slice(0, totalItems).map((product) => (
-              <ProductItem key={product.id} product={product} />
-            ))}
-          </div>
-          <LoadMoreButton
-            list={products}
-            totalItems={totalItems}
-            handleLoadMore={handleLoadMore}
-          />
+          {error ? (
+            <ProductError refetch={refetch} isLoading={isLoading} />
+          ) : isLoading ? (
+            Array.from({ length: skeletonCount }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          ) : (
+            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
+              {products.slice(0, totalItems).map((product) => (
+                <ProductItem key={product.id} product={product} />
+              ))}
+            </div>
+          )}
+          {!isLoading && (
+            <LoadMoreButton
+              list={products}
+              totalItems={totalItems}
+              handleLoadMore={handleLoadMore}
+            />
+          )}
         </div>
       );
 
@@ -61,24 +70,40 @@ const ProductList = ({ productListOptions }) => {
     case "recommended":
       renderedProductList = (
         <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
-          {[...products]
-            .sort((a, b) => b.sold - a.sold)
-            .slice(0, 6)
-            .map((product) => (
-              <ProductItem key={product.id} product={product} />
-            ))}
+          {error ? (
+            <ProductError refetch={refetch} isLoading={isLoading} />
+          ) : isLoading ? (
+            Array.from({ length: skeletonCount }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          ) : (
+            [...products]
+              .sort((a, b) => b.sold - a.sold)
+              .slice(0, 6)
+              .map((product) => (
+                <ProductItem key={product.id} product={product} />
+              ))
+          )}
         </div>
       );
       break;
     case "newest":
       renderedProductList = (
         <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
-          {[...products]
-            .sort((a, b) => b.id - a.id)
-            .slice(0, 6)
-            .map((product) => (
-              <ProductItem key={product.id} product={product} />
-            ))}
+          {error ? (
+            <ProductError refetch={refetch} isLoading={isLoading} />
+          ) : isLoading ? (
+            Array.from({ length: skeletonCount }).map((_, index) => (
+              <ProductSkeleton key={index} />
+            ))
+          ) : (
+            [...products]
+              .sort((a, b) => b.id - a.id)
+              .slice(0, 6)
+              .map((product) => (
+                <ProductItem key={product.id} product={product} />
+              ))
+          )}
         </div>
       );
       break;
