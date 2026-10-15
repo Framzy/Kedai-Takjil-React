@@ -7,11 +7,13 @@ import CartList from "../components/cart/CartList";
 import CartEmpty from "../components/cart/CartEmpty";
 import useGetDataProducts from "../hooks/useGetDataProducts";
 import CartPayment from "../components/cart/CartPayment";
+import CartSkeleton from "../components/cart/CartSkeleton";
+import ProductError from "../components/product/ProductError";
 
 const Cart = () => {
   const [showCheckout, setShowCheckout] = useState(false);
   const { carts, removeItem, changeQuantity, clearCart } = useCart();
-  const { products, isLoading, error } = useGetDataProducts();
+  const { products, isLoading, error, refetch } = useGetDataProducts();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -19,23 +21,8 @@ const Cart = () => {
     setShowCheckout(false);
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-[var(--background-white)] flex items-center justify-center">
-        <p className="text-gray-400 text-sm animate-pulse">Memuat produk...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-[var(--background-white)] flex items-center justify-center">
-        <p className="text-red-400 text-sm">Gagal memuat produk: {error}</p>
-      </div>
-    );
-  }
-
   const isEmptyCart = carts.length === 0;
+  const skeletonCount = isEmptyCart ? 0 : carts.length;
 
   return (
     <>
@@ -55,12 +42,22 @@ const Cart = () => {
               transition={{ duration: 0.5, ease: "easeInOut", delay: 0.4 }}
               className="w-full flex flex-col justify-center items-start p-6 sm:p-12 rounded-t-3xl"
             >
-              <CartList
-                products={products}
-                carts={carts}
-                removeItem={removeItem}
-                onChangeQuantity={changeQuantity}
-              />
+              {error ? (
+                <ProductError refetch={refetch} isLoading={isLoading} />
+              ) : isLoading ? (
+                <div className="w-full flex flex-col items-center justify-center gap-6 sm:gap-8">
+                  {Array.from({ length: skeletonCount }).map((_, index) => (
+                    <CartSkeleton key={index} />
+                  ))}
+                </div>
+              ) : (
+                <CartList
+                  products={products}
+                  carts={carts}
+                  removeItem={removeItem}
+                  onChangeQuantity={changeQuantity}
+                />
+              )}
             </motion.div>
 
             <div className="w-full flex flex-col justify-center items-end rounded-b-3xl border-t-2 border-gray-200 ">
