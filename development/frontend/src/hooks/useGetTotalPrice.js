@@ -1,6 +1,6 @@
 import { formatPrice } from "../utils/formatPrice";
 
-export const useGetTotalPrice = (carts, products) => {
+const useGetTotalPrice = (carts, products) => {
   const totalAmount = carts.reduce((total, cart) => {
     const product = products.find((item) => item.id === cart.product_id);
 
@@ -9,3 +9,5 @@ export const useGetTotalPrice = (carts, products) => {
 
   return formatPrice(totalAmount);
 };
+
+export default useGetTotalPrice;
