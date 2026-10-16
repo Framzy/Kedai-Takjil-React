@@ -1,4 +1,4 @@
-import { useGetTotalPrice } from "../../hooks/useGetTotalPrice";
+import useGetTotalPrice from "../../hooks/useGetTotalPrice";
 import { Link } from "react-router-dom";
 
 function CartPayment({ carts, products, setShowCheckout }) {
