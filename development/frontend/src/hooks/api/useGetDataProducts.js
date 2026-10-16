@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { logger } from "../../utils/logger";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL_PROD
-  ? import.meta.env.VITE_API_URL_PROD
-  : import.meta.env.VITE_API_URL_DEV;
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 const MAX_RETRIES = 3;
 const REQUEST_TIMEOUT = 15000;
 
