@@ -27,7 +27,8 @@ const LoadMoreButton = ({ list, totalItems, handleLoadMore }) => {
 };
 
 const ProductList = ({ productListOptions }) => {
-  const { products, isLoading, error, refetch } = useGetDataProducts();
+  const { products, isLoading, error, refetch, retryCount, maxRetries } =
+    useGetDataProducts();
   const [totalItems, setTotalItems] = useState(INITIAL_ITEMS);
   const { showPopup, closePopup } = useCart();
 
@@ -44,16 +45,24 @@ const ProductList = ({ productListOptions }) => {
       renderedProductList = (
         <div className="flex flex-col items-center gap-6">
           {error ? (
-            <ProductError refetch={refetch} isLoading={isLoading} />
-          ) : isLoading ? (
-            Array.from({ length: skeletonCount }).map((_, index) => (
-              <ProductSkeleton key={index} />
-            ))
+            <ProductError
+              refetch={refetch}
+              isLoading={isLoading}
+              error={error}
+              retryCount={retryCount}
+              maxRetries={maxRetries}
+            />
           ) : (
             <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
-              {products.slice(0, totalItems).map((product) => (
-                <ProductItem key={product.id} product={product} />
-              ))}
+              {isLoading
+                ? Array.from({ length: skeletonCount }).map((_, index) => (
+                    <ProductSkeleton key={index} />
+                  ))
+                : products
+                    .slice(0, totalItems)
+                    .map((product) => (
+                      <ProductItem key={product.id} product={product} />
+                    ))}
             </div>
           )}
           {!isLoading && (
@@ -71,7 +80,13 @@ const ProductList = ({ productListOptions }) => {
       renderedProductList = (
         <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
           {error ? (
-            <ProductError refetch={refetch} isLoading={isLoading} />
+            <ProductError
+              refetch={refetch}
+              isLoading={isLoading}
+              error={error}
+              retryCount={retryCount}
+              maxRetries={maxRetries}
+            />
           ) : isLoading ? (
             Array.from({ length: skeletonCount }).map((_, index) => (
               <ProductSkeleton key={index} />
@@ -91,7 +106,13 @@ const ProductList = ({ productListOptions }) => {
       renderedProductList = (
         <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-15">
           {error ? (
-            <ProductError refetch={refetch} isLoading={isLoading} />
+            <ProductError
+              refetch={refetch}
+              isLoading={isLoading}
+              error={error}
+              retryCount={retryCount}
+              maxRetries={maxRetries}
+            />
           ) : isLoading ? (
             Array.from({ length: skeletonCount }).map((_, index) => (
               <ProductSkeleton key={index} />

@@ -13,7 +13,8 @@ import ProductError from "../components/product/ProductError";
 const Cart = () => {
   const [showCheckout, setShowCheckout] = useState(false);
   const { carts, removeItem, changeQuantity, clearCart } = useCart();
-  const { products, isLoading, error, refetch } = useGetDataProducts();
+  const { products, isLoading, error, refetch, retryCount, maxRetries } =
+    useGetDataProducts();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -43,7 +44,13 @@ const Cart = () => {
               className="w-full flex flex-col justify-center items-start p-6 sm:p-12 rounded-t-3xl"
             >
               {error ? (
-                <ProductError refetch={refetch} isLoading={isLoading} />
+                <ProductError
+                  refetch={refetch}
+                  isLoading={isLoading}
+                  error={error}
+                  retryCount={retryCount}
+                  maxRetries={maxRetries}
+                />
               ) : isLoading ? (
                 <div className="w-full flex flex-col items-center justify-center gap-6 sm:gap-8">
                   {Array.from({ length: skeletonCount }).map((_, index) => (
