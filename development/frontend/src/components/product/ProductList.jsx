@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCart } from "../../context/hooks/useCart";
-import useGetDataProducts from "../../hooks/useGetDataProducts";
+import useGetDataProducts from "../../hooks/api/useGetDataProducts";
 import PopupCart from "../cart/PopupCart";
 import ProductItem from "./ProductItem";
 import ProductSkeleton from "./ProductSkeleton";
