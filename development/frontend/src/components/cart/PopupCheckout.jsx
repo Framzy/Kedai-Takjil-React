@@ -3,48 +3,63 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/hooks/useCart";
+import useCreateOrder from "../../hooks/api/useCreateOrder";
 import motorIcon from "../../assets/icons/cart/motor_icon.webp";
 import { fadeInRight, fadePopUp } from "../../utils/motionVariants";
 
 const PopupCheckout = ({ show, onClose }) => {
   const [nama, setNama] = useState("");
+  const [noHp, setNoHp] = useState("");
   const [alamat, setAlamat] = useState("");
-  const [error, setError] = useState("");
+  const [formError, setFormError] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+
+  const { createOrder, isLoading, error: apiError } = useCreateOrder();
 
   const { clearCart, carts } = useCart();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    if (!nama.trim() || !alamat.trim()) {
-      setError("Nama dan alamat wajib diisi.");
+  const handleSubmit = async () => {
+    setFormError("");
+
+    if (!nama.trim() || !noHp.trim() || !alamat.trim()) {
+      setFormError("Nama, nomor HP, dan alamat wajib diisi.");
       return;
     }
 
-    const order = {
-      id: Date.now(),
-      nama,
-      alamat,
-      items: carts,
-      status: "Menunggu Konfirmasi",
-      createdAt: new Date().toLocaleString("id-ID"),
-    };
+    if (carts.length === 0) {
+      setFormError("Keranjang masih kosong.");
+      return;
+    }
 
-    const existingOrders = JSON.parse(localStorage.getItem("orders") || "[]");
-    localStorage.setItem("orders", JSON.stringify([...existingOrders, order]));
+    const createdOrder = await createOrder({
+      customer_name: nama.trim(),
+      customer_phone: noHp.trim(),
+      customer_address: alamat.trim(),
+      items: carts,
+    });
+
+    if (!createdOrder) {
+      return;
+    }
 
     clearCart();
-    setError("");
-
     setShowSuccess(true);
 
     setTimeout(() => {
       setShowSuccess(false);
       onClose();
       setNama("");
+      setNoHp("");
       setAlamat("");
+      setFormError("");
       navigate("/");
     }, 2500);
+  };
+
+  const handleClose = () => {
+    if (isLoading) return;
+    onClose();
   };
 
   return createPortal(
@@ -56,7 +71,7 @@ const PopupCheckout = ({ show, onClose }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          onClick={!showSuccess ? onClose : undefined}
+          onClick={!showSuccess && !isLoading ? handleClose : undefined}
         >
           {!showSuccess ? (
             <motion.div
@@ -78,7 +93,8 @@ const PopupCheckout = ({ show, onClose }) => {
                     </h2>
                     <button
                       className="text-2xl md:text-3xl text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
-                      onClick={onClose}
+                      onClick={handleClose}
+                      disabled={isLoading}
                     >
                       &times;
                     </button>
@@ -98,7 +114,27 @@ const PopupCheckout = ({ show, onClose }) => {
                       value={nama}
                       onChange={(e) => {
                         setNama(e.target.value);
-                        setError("");
+                        setFormError("");
+                      }}
+                      className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-[var(--color-primary)] transition-colors"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-1">
+                    <label
+                      htmlFor="noHp"
+                      className="text-sm font-semibold text-gray-600"
+                    >
+                      Nomor Handphone
+                    </label>
+                    <input
+                      type="text"
+                      id="noHp"
+                      placeholder="Nomor Handphone Anda"
+                      value={noHp}
+                      onChange={(e) => {
+                        setNoHp(e.target.value);
+                        setFormError("");
                       }}
                       className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-[var(--color-primary)] transition-colors"
                     />
@@ -117,23 +153,28 @@ const PopupCheckout = ({ show, onClose }) => {
                       value={alamat}
                       onChange={(e) => {
                         setAlamat(e.target.value);
-                        setError("");
+                        setFormError("");
                       }}
                       rows={4}
                       className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:border-[var(--color-primary)] transition-colors resize-none"
                     />
                   </div>
-                  {error && (
-                    <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-lg">
-                      {error}
+                  {(formError || apiError) && (
+                    <p
+                      role="alert"
+                      className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-lg"
+                    >
+                      {formError || apiError}
                     </p>
                   )}
 
                   <button
+                    type="button"
                     onClick={handleSubmit}
-                    className="w-full py-3 bg-[var(--color-primary)] text-white font-semibold rounded-3xl shadow-[0_4px_0px_0px_rgba(200,200,200,0.8)] hover:bg-[var(--color-secondary)] transition-colors duration-300 cursor-pointer"
+                    disabled={isLoading}
+                    className="w-full py-3 bg-[var(--color-primary)] text-white font-semibold rounded-3xl shadow-[0_4px_0px_0px_rgba(200,200,200,0.8)] hover:bg-[var(--color-secondary)] transition-colors duration-300 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Kirim Pesanan
+                    {isLoading ? "Mengirim Pesanan..." : "Kirim Pesanan"}
                   </button>
 
                   <p className="text-xs text-center text-gray-400">
@@ -152,7 +193,10 @@ const PopupCheckout = ({ show, onClose }) => {
               <button
                 className="w-full flex justify-end px-4 pt-2 md:px-4 md:pt-4 text-3xl md:text-5xl leading-none font-regular text-[var(--color-primary)] 
                         hover:text-[var(--color-secondary)] transition-colors cursor-pointer"
-                onClick={onClose}
+                onClick={() => {
+                  setShowSuccess(false);
+                  onClose();
+                }}
               >
                 &times;
               </button>
