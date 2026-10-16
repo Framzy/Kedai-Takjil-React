@@ -1,4 +1,4 @@
-import { getTotalPrice } from "../../utils/getTotalPrice";
+import { useGetTotalPrice } from "../../hooks/useGetTotalPrice";
 import { Link } from "react-router-dom";
 
 function CartPayment({ carts, products, setShowCheckout }) {
@@ -24,7 +24,7 @@ function CartPayment({ carts, products, setShowCheckout }) {
               Total
             </p>
             <p className="font-bold text-[var(--color-primary)] text-base sm:text-lg ">
-              {getTotalPrice(carts, products)}
+              {useGetTotalPrice(carts, products)}
             </p>
           </div>
           <button

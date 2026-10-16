@@ -1,31 +1,29 @@
 import { useState, useEffect, useRef } from "react";
 import { CartContext } from "./CartContext";
 
+const loadCart = () => {
+  try {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  } catch (error) {
+    console.warn("Failed to load cart:", error);
+    localStorage.removeItem("cart");
+    return [];
+  }
+};
+
 export const CartProvider = ({ children }) => {
-  const [carts, setCarts] = useState([]);
+  const [carts, setCarts] = useState(loadCart());
   const [showPopup, setShowPopup] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
   const popupTimerRef = useRef(null);
 
   useEffect(() => {
     try {
-      const savedCart = localStorage.getItem("cart");
-      if (savedCart) {
-        setCarts(JSON.parse(savedCart));
-      }
+      localStorage.setItem("cart", JSON.stringify(carts));
     } catch (error) {
-      console.warn("Failed to load cart:", error);
-      localStorage.removeItem("cart");
-    } finally {
-      setIsLoaded(true);
+      console.warn("Failed to save cart:", error);
     }
-  }, []);
-
-  useEffect(() => {
-    if (!isLoaded) return;
-
-    localStorage.setItem("cart", JSON.stringify(carts));
-  }, [carts, isLoaded]);
+  }, [carts]);
 
   useEffect(() => {
     return () => {

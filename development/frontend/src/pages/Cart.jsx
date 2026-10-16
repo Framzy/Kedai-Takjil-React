@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PopupCheckout from "../components/cart/PopupCheckout";
 import CartList from "../components/cart/CartList";
 import CartEmpty from "../components/cart/CartEmpty";
-import useGetDataProducts from "../hooks/useGetDataProducts";
+import useGetDataProducts from "../hooks/api/useGetDataProducts";
 import CartPayment from "../components/cart/CartPayment";
 import CartSkeleton from "../components/cart/CartSkeleton";
 import ProductError from "../components/product/ProductError";
