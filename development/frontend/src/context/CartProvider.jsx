@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { CartContext } from "./CartContext";
+import { logger } from "../utils/logger";
 
 const loadCart = () => {
   try {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   } catch (error) {
-    console.warn("Failed to load cart:", error);
+    logger.warn("Failed to load cart:", error);
     localStorage.removeItem("cart");
     return [];
   }
@@ -20,8 +21,9 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     try {
       localStorage.setItem("cart", JSON.stringify(carts));
+      logger.log("Cart saved:", carts);
     } catch (error) {
-      console.warn("Failed to save cart:", error);
+      logger.warn("Failed to save cart:", error);
     }
   }, [carts]);
 

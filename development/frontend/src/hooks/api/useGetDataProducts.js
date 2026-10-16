@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { logger } from "../../utils/logger";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 const MAX_RETRIES = 3;
@@ -55,6 +56,7 @@ function useGetDataProducts() {
         }
 
         const result = await response.json();
+        logger.log("Berhasil mengambil produk dari API:", result);
 
         if (!Array.isArray(result.data)) {
           throw new Error("Format respons API tidak valid.");
@@ -96,7 +98,7 @@ function useGetDataProducts() {
 
         if (err.name === "AbortError") return;
 
-        console.error("Gagal mengambil produk dari API:", err);
+        logger.error("Gagal mengambil produk dari API:", err);
 
         let type = "server";
 

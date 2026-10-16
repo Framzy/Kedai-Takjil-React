@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { logger } from "../../utils/logger";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -47,9 +48,10 @@ function useCreateOrder() {
         }
 
         setOrder(result.data);
+        logger.log("Berhasil membuat pesanan:", result.data);
         return result.data;
       } catch (err) {
-        console.error("Gagal membuat pesanan:", err);
+        logger.error("Gagal membuat pesanan:", err);
         setError(err.message || "Terjadi kesalahan saat membuat pesanan.");
 
         return null;
