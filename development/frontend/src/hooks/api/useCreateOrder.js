@@ -1,7 +1,9 @@
 import { useCallback, useState } from "react";
 import { logger } from "../../utils/logger";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_BASE_URL = import.meta.env.VITE_API_URL_PROD
+  ? import.meta.env.VITE_API_URL_PROD
+  : import.meta.env.VITE_API_URL_DEV;
 
 function useCreateOrder() {
   const [isLoading, setIsLoading] = useState(false);
